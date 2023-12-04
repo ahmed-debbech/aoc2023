@@ -41,16 +41,15 @@ vector<Coord> getAllNumbers(vector<string> vv){
         
     int x=0;
     for (auto & element : vv) {
-        string line = (string) element;
         int i=0;
         string number = "";
         int yp =0;
-        for (int i=0; i<=line.size()-1; i++) {
-            if((line[i]<='9') && (line[i]>='0')){
+        for (int i=0; i<=element.size(); i++) {
+            if((element[i]<='9') && (element[i]>='0')){
                 if(number == "") yp = i;
-                number += line[i];
+                number += element[i];
             }else{
-                if(number != ""){
+                if(number != "" || element[i] == '\n'){
                     struct Coord cc;
                     cc.num = atoi(number.c_str());
                     cc.x = x;
@@ -112,7 +111,7 @@ int main() {
         int r = numbers[i].y;
         for(int j=0; j<=to_string(numbers[i].num).size()-1; j++){
             if(checksur(numbers[i].x, r, vect)){
-                //cout << numbers[i].num << ", ";
+                cout << numbers[i].num << ", ";
                 sum += numbers[i].num;
                 break;
             }
