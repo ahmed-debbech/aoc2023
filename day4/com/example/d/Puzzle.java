@@ -11,9 +11,11 @@ public class Puzzle {
     public class Card{
         public List<Integer> having;
         public List<Integer> winning;
+        public List<Integer> winner;
         public Card(){
             having = new ArrayList<>();
             winning = new ArrayList<>();
+            winner = new ArrayList<>();
         }
     }
     
@@ -29,13 +31,16 @@ public class Puzzle {
                 //minimize spaces
                 for(int o=0; o<=data.length()-1; o++){
                     if(data.charAt(o) == ' '){
-                         
+                        do{
+                            o++;
+                        }while(data.charAt(o) == ' ');
+                        o--;
+                        repl+=' ';
                     }else{
                         repl += data.charAt(o);
                     }
                 }
-                System.err.println(repl);
-                arr.add(repl.split("/"));
+                arr.add(repl.split(" "));
             }
             myReader.close();
         } catch (FileNotFoundException e) {
@@ -54,9 +59,7 @@ public class Puzzle {
             boolean divide = false;
             Card c = new Card();
             for(int j=2; j<=arr.get(i).length-1; j++){
-                System.err.println("lll");
-                System.err.println(arr.get(i)[j]);
-                if(arr.get(i)[j] == "|"){
+                if(arr.get(i)[j].equals("|")){
                     divide = true;
                 }else{
                     if(divide){
@@ -70,5 +73,33 @@ public class Puzzle {
             }
             cards.add(c);
         }
+        int sum = 0;
+        List<List<Integer>> winningNums = new ArrayList<>();
+
+        for(int i=0; i<=cards.size()-1; i++){
+            winningNums.add(new ArrayList<>());
+
+            for(int j=0; j<=cards.get(i).winning.size()-1; j++){
+                for(int k=0; k<=cards.get(i).having.size()-1; k++){
+                    if(cards.get(i).winning.get(j) == cards.get(i).having.get(k)){
+                        winningNums.get(i).add(cards.get(i).having.get(k));
+                    }
+                }
+            }
+        }
+
+        for(int f = 0; f<=winningNums.size()-1; f++){
+            int points = 0;
+            for(int j=0; j<=winningNums.get(f).size()-1; j++){
+                if(j==0){
+                    points += 1;
+                }else{
+                    points += (points * 2);
+                }
+            }
+            sum += points;
+        }
+        
+        System.err.println("RESULT: " + sum);
     }
 }
