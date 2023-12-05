@@ -1,5 +1,6 @@
 package com.example.d;
 
+
 import java.io.File;  // Import the File class
 import java.io.FileNotFoundException;  // Import this class to handle errors
 import java.util.ArrayList;
@@ -88,15 +89,31 @@ public class Puzzle {
             }
         }
 
+
         for(int f = 0; f<=winningNums.size()-1; f++){
             int points = 0;
+            int hold = 0;
+            if(winningNums.get(f).size() > 0)
             for(int j=0; j<=winningNums.get(f).size()-1; j++){
                 if(j==0){
                     points += 1;
+                    hold = 1;
                 }else{
-                    points += (points * 2);
+                    if(j == 1){
+                        points += 1;
+                        hold = 1;
+                    }else{
+                        if(j == 2){
+                            points += 2;
+                            hold = 2;
+                        }else{
+                            points += (hold * 2);
+                            hold = points;
+                        }
+                    }
                 }
             }
+            System.err.println(points);
             sum += points;
         }
         
