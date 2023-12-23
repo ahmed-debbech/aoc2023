@@ -1,18 +1,47 @@
-public abstract class Module {
-    private Boolean input;
-    private Boolean output;
+import java.util.Arrays;
 
-    public Boolean getInput() {
-        return input;
+public class Module {
+
+    private String name;
+    private String type;
+    private String[] outputs;
+
+    public Module(String name, String type, String[] outputs) {
+        this.name = name;
+        this.type = type;
+        this.outputs = outputs;
     }
 
-    public void setInput(Boolean input) {
-        this.input = input;
+    @Override
+    public String toString() {
+        return "Module{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", outputs=" + Arrays.toString(outputs) +
+                '}';
     }
 
-    abstract public Boolean getOutput();
+    public String getName() {
+        return name;
+    }
 
-    public void setOutput(Boolean output) {
-        this.output = output;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String[] getOutputs() {
+        return outputs;
+    }
+
+    public void setOutputs(String[] outputs) {
+        this.outputs = outputs;
     }
 }
