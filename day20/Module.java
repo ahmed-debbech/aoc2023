@@ -1,10 +1,12 @@
 import java.util.Arrays;
+import java.util.Objects;
 
 public class Module {
 
     private String name;
     private String type;
     private String[] outputs;
+
 
     public Module(String name, String type, String[] outputs) {
         this.name = name;
@@ -13,12 +15,25 @@ public class Module {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if(o instanceof Module){
+            return name.equals(((Module) o).getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
     public String toString() {
-        return "Module{" +
-                "name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", outputs=" + Arrays.toString(outputs) +
-                '}';
+        return " mod :{" +
+                "name :'" + name + '\'' +
+                ", type :'" + type + '\'' +
+                ", outputs : " + Arrays.toString(outputs) +
+                "}";
     }
 
     public String getName() {

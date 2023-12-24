@@ -22,6 +22,9 @@ public class Connection {
 
         }
         this.cnx = cnx;
+        for(int i=0; i<=this.cnx.length-1; i++) {
+            this.cnx[i] = this.cnx[i].trim();
+        }
     }
 
     @Override

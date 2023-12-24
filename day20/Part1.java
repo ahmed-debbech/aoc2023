@@ -14,5 +14,11 @@ public class Part1 {
         circuit = Logic.wireCircuit(conns);
         System.err.println(circuit);
 
+        circuit = Logic.initCircuit(circuit);
+
+        Logic.showCircuit(circuit);
+
+        circuit = Logic.pushButton(circuit);
+        Logic.showCircuit(circuit);
     }
 }
