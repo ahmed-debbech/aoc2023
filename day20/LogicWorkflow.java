@@ -1,7 +1,8 @@
 import java.io.*;
 import java.util.*;
+import java.util.stream.Collectors;
 
-public class Logic {
+public class LogicWorkflow {
     public static List<Connection> parseFile(){
         File file = new File("input");
         BufferedReader br = null;
@@ -34,7 +35,7 @@ public class Logic {
                 if (c.getType().equals("flip")) {
                     m = new FlipFlop(c.getName(), c.getType(), c.getCnx());
                 } else {
-                    m = new Module(c.getName(), c.getType(), c.getCnx());
+                    m = new Broadcaster(c.getName(), c.getType(), c.getCnx());
                 }
             }
             circuit.put(m, Arrays.asList(c.getCnx()));
@@ -47,6 +48,7 @@ public class Logic {
             System.err.println("****** entry ********");
             System.err.println("name : " + entry.getKey().getName());
             System.err.println("type : " + entry.getKey().getType());
+            System.err.println("outputSignal : " + entry.getKey().isOutputSignal());
             if(entry.getKey() instanceof Conjunction){
                 Conjunction conj = (Conjunction) entry.getKey();
                 for(int j=0; j<=conj.getStates().size()-1; j++){
@@ -56,6 +58,9 @@ public class Logic {
                 if(entry.getKey() instanceof FlipFlop){
                     FlipFlop flp = (FlipFlop) entry.getKey();
                     System.err.println("flipState : " + flp.isState());
+                }else{
+                    Broadcaster brd = (Broadcaster) entry.getKey();
+                    System.err.println("broadState: " + brd.isOutState());
                 }
             }
             System.err.print("outs : [");
@@ -88,11 +93,22 @@ public class Logic {
         return circuit;
     }
 
-    private static void flow(Map<Module, List<String>> circuit, Module start, boolean signal){
+    private static Map<Module, List<String>>  flow(Map<Module, List<String>> circuit, Module start){
+        List<String> list = circuit.get(start);
+        if(list == null || list.size() == 0) return circuit;
+        System.err.println(list);
+        for(String str : list){
+            Module key = circuit.entrySet().stream().filter(entry -> str.equals(entry.getKey().getName())).map(Map.Entry::getKey).collect(Collectors.toList()).get(0);
+            key.resolve(start.outputSignal);
+        }
+        for(String str : list){
+            Module key = circuit.entrySet().stream().filter(entry -> str.equals(entry.getKey().getName())).map(Map.Entry::getKey).collect(Collectors.toList()).get(0);
+            circuit = flow(circuit, key);
+        }
 
+        return circuit;
     }
     public static Map<Module, List<String>> pushButton(Map<Module, List<String>> circuit){
-        flow(circuit, new Module("broadcast", "broad", null), false);
-        return null;
+        return flow(circuit, new Module("broadcaster", "broad", null));
     }
 }

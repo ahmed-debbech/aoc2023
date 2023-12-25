@@ -1,4 +1,3 @@
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -8,17 +7,17 @@ public class Part1 {
 
         Map<Module, List<String>> circuit = null;
 
-        List<Connection> conns = Logic.parseFile();
+        List<Connection> conns = LogicWorkflow.parseFile();
         System.err.println(conns);
 
-        circuit = Logic.wireCircuit(conns);
+        circuit = LogicWorkflow.wireCircuit(conns);
         System.err.println(circuit);
 
-        circuit = Logic.initCircuit(circuit);
+        circuit = LogicWorkflow.initCircuit(circuit);
 
-        Logic.showCircuit(circuit);
+        LogicWorkflow.showCircuit(circuit);
 
-        circuit = Logic.pushButton(circuit);
-        Logic.showCircuit(circuit);
+        circuit = LogicWorkflow.pushButton(circuit);
+        LogicWorkflow.showCircuit(circuit);
     }
 }

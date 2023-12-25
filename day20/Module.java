@@ -7,11 +7,21 @@ public class Module {
     private String type;
     private String[] outputs;
 
+    protected boolean outputSignal;
+
+    public boolean isOutputSignal() {
+        return outputSignal;
+    }
+
+    public void setOutputSignal(boolean outputSignal) {
+        this.outputSignal = outputSignal;
+    }
 
     public Module(String name, String type, String[] outputs) {
         this.name = name;
         this.type = type;
         this.outputs = outputs;
+        outputSignal = false;
     }
 
     @Override
@@ -22,6 +32,9 @@ public class Module {
         return false;
     }
 
+    public boolean resolve(boolean signal){
+        return outputSignal;
+    }
     @Override
     public int hashCode() {
         return Objects.hash(name);

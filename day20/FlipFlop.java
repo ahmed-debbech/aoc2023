@@ -17,15 +17,12 @@ public class FlipFlop extends Module{
     }
 
     @Override
-    public boolean equals(Object o) {
-        if(o instanceof Module){
-            return super.getName().equals(((Module) o).getName());
+    public boolean resolve(boolean signal) {
+        if(!signal){
+            super.outputSignal = !state;
+            return !state;
         }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), state);
+        super.outputSignal = state;
+        return state;
     }
 }

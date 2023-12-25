@@ -28,6 +28,18 @@ public class Conjunction extends Module{
         states = new ArrayList<>();
     }
 
+    @Override
+    public boolean resolve(boolean signal) {
+        for(PrevState ps : states){
+            if(ps.state == false){
+                super.outputSignal = true;
+                return true;
+            }
+        }
+        super.outputSignal = false;
+        return false;
+    }
+
     public List<PrevState> getStates() {
         return states;
     }
@@ -36,18 +48,6 @@ public class Conjunction extends Module{
         this.states = states;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if(o instanceof Module){
-            return super.getName().equals(((Module) o).getName());
-        }
-        return false;
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(super.hashCode(), states);
-    }
 
     @Override
     public String toString() {
